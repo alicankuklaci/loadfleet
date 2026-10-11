@@ -1,0 +1,5 @@
+*
+!dist/linux-amd64/loadfleet
+!dist/linux-arm64/loadfleet
+!LICENSE
+!THIRD_PARTY_NOTICES

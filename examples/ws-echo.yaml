@@ -1,0 +1,9 @@
+name: ws-echo
+target: { allow: ["127.0.0.1"] }
+scenario:
+  type: ws
+  ws:
+    url: "ws://127.0.0.1:8090/ws"
+    steps: [{send: "ping {{vu}} {{iter}}"}, {expect: {regex: "^ping "}}, {sleep_ms: 1000}]
+load: { model: closed, stages: [{target: 1000, ramp: 10s, hold: 60s}] }
+stop: { p95_ms: { ws.rtt: 200 } }

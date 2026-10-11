@@ -1,0 +1,24 @@
+[package]
+name = "loadfleet-testserver"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[lints]
+workspace = true
+
+[[bin]]
+name = "loadfleet-testserver"
+path = "src/bin/loadfleet-testserver.rs"
+
+[dependencies]
+tokio.workspace = true
+hyper.workspace = true
+hyper-util.workspace = true
+http-body-util.workspace = true
+bytes.workspace = true
+tokio-tungstenite.workspace = true
+futures-util.workspace = true
+clap.workspace = true
+rlimit.workspace = true

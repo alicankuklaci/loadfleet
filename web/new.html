@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="htmx-config" content='{"includeIndicatorStyles":false,"allowEval":false,"selfRequestsOnly":true,"allowScriptTags":false}'>
+<title>loadfleet · New test</title>
+<link rel="stylesheet" href="/static/app.css">
+</head>
+<body data-page="new">
+<header><b>loadfleet</b>
+  <nav><a href="/agents">Agents</a><a href="/new" class="on">New test</a><a href="/history">History</a>
+  <form method="post" action="/logout"><button>Log out</button></form></nav>
+</header>
+<main>
+  <h1>New test</h1>
+  <form hx-post="/ui/start" hx-target="#result">
+    <label>Template
+      <!-- replaced by the server's template list (built-ins + compiled-in scenario plugins) -->
+      <span hx-get="/ui/template-select" hx-trigger="load" hx-swap="outerHTML"></span></label>
+    <textarea id="plan" name="plan" rows="28" spellcheck="false" autocapitalize="off" autocomplete="off" placeholder="plan YAML — pick a template above"></textarea>
+    <p class="muted">Secrets for the target belong in the agent's environment as <code>{{env.LOADFLEET_VAR_NAME}}</code> (only <code>LOADFLEET_VAR_*</code> variables can be read), not in the plan.</p>
+    <div class="row">
+      <button type="button" hx-post="/ui/validate" hx-include="#plan" hx-target="#result">Validate</button>
+      <button type="submit" class="primary">Start</button>
+    </div>
+  </form>
+  <div id="result"></div>
+</main>
+<script src="/static/vendor/htmx.min.js"></script><script src="/static/app.js"></script>
+</body>
+</html>

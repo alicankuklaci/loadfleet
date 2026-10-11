@@ -1,0 +1,18 @@
+[package]
+name = "loadfleet-health"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+tokio.workspace = true
+hdrhistogram.workspace = true
+cpu-time.workspace = true
+rlimit.workspace = true
+sysinfo.workspace = true
+serde.workspace = true
+parking_lot.workspace = true

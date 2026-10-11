@@ -1,0 +1,5 @@
+name: http-get
+target: { allow: ["127.0.0.1"] }
+scenario: { type: http, http: { url: "http://127.0.0.1:8080/", think_ms: [0, 50] } }
+load: { model: closed, stages: [{target: 100, ramp: 10s, hold: 30s}, {target: 500, ramp: 20s, hold: 30s}] }
+stop: { error_rate: 0.02, p95_ms: { http: 500 } }

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- ~/Library/LaunchAgents/io.loadfleet.agent.plist ; replace the REPLACE_WITH_* values (launchd does not
+     expand ~ or $HOME, so the log paths need your user name), chmod 600, then: launchctl load -w <file>
+     The token is passed as an environment variable (not an argument) so it stays out of `ps`.
+     Logs go to ~/Library/Logs/loadfleet/ (install.sh creates it; else: mkdir -p ~/Library/Logs/loadfleet),
+     which Console.app shows under Log Reports. -->
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>io.loadfleet.agent</string>
+  <key>ProgramArguments</key>
+  <array><string>/usr/local/bin/loadfleet</string><string>agent</string></array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>LOADFLEET_SERVER</key><string>wss://loadfleet.example.com</string>
+    <key>LOADFLEET_TOKEN</key><string>REPLACE_WITH_TOKEN</string>
+    <key>LOADFLEET_NAME</key><string>m5-pro</string>
+  </dict>
+  <key>SoftResourceLimits</key><dict><key>NumberOfFiles</key><integer>1048576</integer></dict>
+  <key>HardResourceLimits</key><dict><key>NumberOfFiles</key><integer>1048576</integer></dict>
+  <key>KeepAlive</key><true/>
+  <key>RunAtLoad</key><true/>
+  <key>StandardOutPath</key><string>/Users/REPLACE_WITH_USER/Library/Logs/loadfleet/agent.log</string>
+  <key>StandardErrorPath</key><string>/Users/REPLACE_WITH_USER/Library/Logs/loadfleet/agent.log</string>
+</dict>
+</plist>

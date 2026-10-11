@@ -1,0 +1,47 @@
+[package]
+name = "loadfleet-server"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+loadfleet-plan.workspace = true
+loadfleet-metrics.workspace = true
+loadfleet-health.workspace = true
+loadfleet-protocol.workspace = true
+loadfleet-engine.workspace = true
+loadfleet-scenario.workspace = true
+rusqlite.workspace = true
+tokio.workspace = true
+tokio-util.workspace = true
+axum.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+serde_yaml.workspace = true
+anyhow.workspace = true
+tracing.workspace = true
+parking_lot.workspace = true
+rand.workspace = true
+hex.workspace = true
+argon2.workspace = true
+rust-embed.workspace = true
+mime_guess.workspace = true
+futures-util.workspace = true
+uuid.workspace = true
+ipnet.workspace = true
+
+[dev-dependencies]
+tokio-tungstenite.workspace = true
+loadfleet-testserver.workspace = true
+tempfile.workspace = true
+reqwest.workspace = true
+loadfleet-agent.workspace = true
+loadfleet-engine.workspace = true
+rustls.workspace = true
+parking_lot.workspace = true
+futures-util.workspace = true
+serde_json.workspace = true

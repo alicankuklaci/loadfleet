@@ -1,0 +1,4 @@
+name: tcp-hold
+target: { allow: ["127.0.0.1"] }
+scenario: { type: tcp, tcp: { addr: ["127.0.0.1:9001", "127.0.0.1:9002"], hold_ms: 0, conn_rate: 2000 } }
+load: { model: closed, stages: [{target: 10000, ramp: 10s, hold: 60s}] }

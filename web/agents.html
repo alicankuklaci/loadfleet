@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="htmx-config" content='{"includeIndicatorStyles":false,"allowEval":false,"selfRequestsOnly":true,"allowScriptTags":false}'>
+<title>loadfleet · Agents</title>
+<link rel="stylesheet" href="/static/app.css">
+</head>
+<body data-page="agents">
+<header><b>loadfleet</b>
+  <nav><a href="/agents" class="on">Agents</a><a href="/new">New test</a><a href="/history">History</a>
+  <form method="post" action="/logout"><button>Log out</button></form></nav>
+</header>
+<main>
+  <h1>Agents</h1>
+  <div id="agents" class="scroll" hx-get="/ui/agents" hx-trigger="load, every 2s"></div>
+  <h2>Cloudflare WAF allow-list</h2>
+  <p>Paste into a WAF custom rule (action <i>Skip</i>) on the target zone so agent traffic is not challenged or rate limited. IPv6 agents are listed as their /64.</p>
+  <div id="cf" hx-get="/ui/cloudflare" hx-trigger="load, every 5s"></div>
+  <h2>Agent token</h2>
+  <div class="row"><button hx-get="/api/token" hx-target="#token" hx-swap="innerHTML">Show</button>
+     <button hx-post="/api/token/rotate" hx-target="#token" hx-swap="innerHTML" hx-confirm="Rotate? New agents need the new token; connected agents stay.">Rotate</button>
+     <button type="button" data-copy="token">Copy</button> <button type="button" data-clear="token">Hide</button></div>
+  <pre id="token" class="copy"></pre>
+  <p>Start an agent: <code>loadfleet agent --server wss://&lt;this host&gt; --token &lt;token&gt; --name &lt;name&gt;</code></p>
+</main>
+<script src="/static/vendor/htmx.min.js"></script><script src="/static/app.js"></script>
+</body>
+</html>

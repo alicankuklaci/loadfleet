@@ -1,0 +1,58 @@
+# loadfleet control server behind a Cloudflare Tunnel (cloudflared in the same compose network).
+#
+# .env next to this file (chmod 600):
+#   LOADFLEET_ADMIN_PASSWORD=...   admin login (>= 12 chars); read from the environment, never put it in argv
+#   LOADFLEET_ALLOW=...            hosts/IPs/CIDRs plans may target, comma-separated (required)
+#   TUNNEL_TOKEN=...               Cloudflare Tunnel token; point the tunnel's public hostname at http://loadfleet:8080
+#   LOADFLEET_TAG=0.2.0            optional: the loadfleet image version (default 0.2.0)
+#
+# Behind the tunnel the direct peer is the cloudflared container, so the server must be told to
+# believe forwarded headers from that network only: --trust-proxy takes CIDRs (never bare), and
+# --trust-cf-header makes it use CF-Connecting-IP (safe here because only cloudflared can reach
+# the container). Behind a different reverse proxy drop LOADFLEET_TRUST_CF_HEADER and list that
+# proxy's address/CIDR instead.
+services:
+  loadfleet:
+    # pinned; set LOADFLEET_TAG in .env to upgrade deliberately
+    image: ghcr.io/alicankuklaci/loadfleet:${LOADFLEET_TAG:-0.2.0}
+    command: ["server"]
+    environment:
+      LOADFLEET_ALLOW: ${LOADFLEET_ALLOW:?set LOADFLEET_ALLOW in .env}
+      LOADFLEET_ADMIN_PASSWORD: ${LOADFLEET_ADMIN_PASSWORD:?set LOADFLEET_ADMIN_PASSWORD in .env}
+      LOADFLEET_TRUST_PROXY: "172.30.0.0/24"   # the "edge" network below, where cloudflared lives
+      LOADFLEET_TRUST_CF_HEADER: "true"
+      LOADFLEET_SECURE_COOKIES: "true"
+    # one fd per agent socket and panel client
+    ulimits:
+      nofile: { soft: 1048576, hard: 1048576 }
+    # locked down: no capabilities (it listens on 8080 as uid 65534), no privilege gain, read-only
+    # root; the only writable places are the data volume (the SQLite db) and a small /tmp
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    read_only: true
+    tmpfs:
+      - /tmp:size=16m,mode=1777
+    volumes:
+      - loadfleet-data:/data
+    networks: [edge]
+    restart: unless-stopped
+    # No published port: only cloudflared reaches it. For a local nginx instead, publish
+    # "127.0.0.1:8080:8080" and set LOADFLEET_TRUST_PROXY to the proxy's address, e.g. 127.0.0.1/32.
+  cloudflared:
+    # consider pinning a cloudflared release tag here as well
+    image: cloudflare/cloudflared:latest
+    command: ["tunnel", "--no-autoupdate", "run"]
+    environment:
+      TUNNEL_TOKEN: ${TUNNEL_TOKEN:?set TUNNEL_TOKEN in .env}
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    networks: [edge]
+    restart: unless-stopped
+    depends_on: [loadfleet]
+volumes:
+  loadfleet-data: {}
+networks:
+  edge:
+    ipam:
+      config:
+        - subnet: 172.30.0.0/24

@@ -1,0 +1,38 @@
+[package]
+name = "loadfleet-scenario"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+loadfleet-plan.workspace = true
+loadfleet-engine.workspace = true
+loadfleet-metrics.workspace = true
+loadfleet-health.workspace = true
+tokio.workspace = true
+async-trait.workspace = true
+hyper.workspace = true
+hyper-util.workspace = true
+http-body-util.workspace = true
+bytes.workspace = true
+rustls.workspace = true
+tokio-rustls.workspace = true
+webpki-roots.workspace = true
+url.workspace = true
+uuid.workspace = true
+rand.workspace = true
+tracing.workspace = true
+tokio-tungstenite.workspace = true
+futures-util.workspace = true
+regex.workspace = true
+hex.workspace = true
+parking_lot.workspace = true
+
+[dev-dependencies]
+loadfleet-testserver.workspace = true
+tokio = { workspace = true, features = ["test-util"] }
+tempfile.workspace = true

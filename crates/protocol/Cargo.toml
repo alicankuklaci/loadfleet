@@ -1,0 +1,16 @@
+[package]
+name = "loadfleet-protocol"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+loadfleet-plan.workspace = true
+loadfleet-metrics.workspace = true
+loadfleet-health.workspace = true
+serde.workspace = true
+serde_json.workspace = true

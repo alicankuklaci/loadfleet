@@ -1,0 +1,32 @@
+# /etc/systemd/system/loadfleet-agent.service
+# Put LOADFLEET_SERVER, LOADFLEET_TOKEN, LOADFLEET_NAME in /etc/loadfleet/agent.env (chmod 600);
+# the token comes from the environment, never from the command line.
+# Check the sandbox after editing: systemd-analyze security loadfleet-agent
+[Unit]
+Description=loadfleet load agent
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+EnvironmentFile=/etc/loadfleet/agent.env
+ExecStart=/usr/local/bin/loadfleet agent
+Restart=always
+RestartSec=5
+# agents hold one fd per virtual-user connection
+LimitNOFILE=1048576
+DynamicUser=yes
+# the only writable path: /var/lib/loadfleet (everything else is read-only or hidden)
+StateDirectory=loadfleet
+ReadWritePaths=/var/lib/loadfleet
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+CapabilityBoundingSet=
+LockPersonality=yes
+RestrictRealtime=yes
+SystemCallArchitectures=native
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>loadfleet · Log in</title>
+<link rel="stylesheet" href="/static/app.css">
+<script src="/static/app.js" defer></script>
+</head>
+<body data-page="login">
+<main>
+  <form class="login" method="post" action="/login">
+    <h1>loadfleet</h1>
+    <p id="login-error" class="login-error" role="alert" hidden></p>
+    <label for="password">Admin password</label>
+    <input id="password" name="password" type="password" autocomplete="current-password" required autofocus>
+    <button type="submit" class="primary">Log in</button>
+  </form>
+</main>
+</body>
+</html>

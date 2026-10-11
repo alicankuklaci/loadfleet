@@ -1,0 +1,28 @@
+[package]
+name = "loadfleet-agent"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+loadfleet-plan.workspace = true
+loadfleet-engine.workspace = true
+loadfleet-scenario.workspace = true
+loadfleet-metrics.workspace = true
+loadfleet-health.workspace = true
+loadfleet-protocol.workspace = true
+tokio.workspace = true
+tokio-tungstenite.workspace = true
+futures-util.workspace = true
+anyhow.workspace = true
+tracing.workspace = true
+rand.workspace = true
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["test-util"] }
+tokio-tungstenite.workspace = true
+loadfleet-testserver.workspace = true

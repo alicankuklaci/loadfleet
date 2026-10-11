@@ -1,0 +1,12 @@
+name: http-post-json
+target: { allow: ["127.0.0.1"] }
+scenario:
+  type: http
+  http:
+    method: POST
+    url: "http://127.0.0.1:8080/echo"
+    headers: { content-type: application/json, authorization: "Bearer {{env.LOADFLEET_VAR_API_TOKEN}}" }
+    body: '{"player":"{{vu}}","iter":{{iter}},"id":"{{uuid}}"}'
+    expect_status: [200]
+load: { model: open, max_vus: 2000, stages: [{target: 1000, ramp: 10s, hold: 60s}] }
+stop: { error_rate: 0.01, p95_ms: { http: 300 } }

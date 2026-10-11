@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="htmx-config" content='{"includeIndicatorStyles":false,"allowEval":false,"selfRequestsOnly":true,"allowScriptTags":false}'>
+<title>loadfleet · Compare</title>
+<link rel="stylesheet" href="/static/app.css">
+</head>
+<body data-page="compare">
+<header><b>loadfleet</b>
+  <nav><a href="/agents">Agents</a><a href="/new">New test</a><a href="/history">History</a>
+  <form method="post" action="/logout"><button>Log out</button></form></nav>
+</header>
+<main>
+  <h1>Compare</h1>
+  <div id="cmp" class="scroll" hx-trigger="load"></div>
+</main>
+<script src="/static/vendor/uPlot.iife.min.js"></script>
+<script src="/static/vendor/htmx.min.js"></script><script src="/static/app.js"></script><script src="/static/series.js"></script><script src="/static/charts.js"></script>
+</body>
+</html>
