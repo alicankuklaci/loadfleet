@@ -44,6 +44,9 @@ impl Sender {
         }
     }
 
+    // The error hands the unsent request back for a retry on a fresh connection, so it
+    // cannot be boxed away; it is matched immediately by the caller.
+    #[allow(clippy::result_large_err)]
     async fn try_send(&mut self, req: Req) -> Result<Response<Incoming>, TrySendError<Req>> {
         match self {
             Sender::H1 { tx, .. } => tx.try_send_request(req).await,
